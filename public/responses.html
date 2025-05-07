@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Responses - DataFormers</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">DataFormers</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/surveys.html">Surveys Available</a></li>
+                <li><a href="/about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1>Survey Responses</h1>
+        
+        <div class="description">
+            <p>View responses for your surveys. Select a survey to see its responses.</p>
+        </div>
+        
+        <div class="survey-selector">
+            <label for="surveySelect">Select Survey:</label>
+            <select id="surveySelect">
+                <option value="">-- Select a survey --</option>
+            </select>
+        </div>
+        
+        <div id="responsesContainer" class="responses-container">
+            <p class="no-responses">Select a survey to view responses.</p>
+        </div>
+    </div>
+    
+    <script src="responses.js"></script>
+</body>
+</html> 

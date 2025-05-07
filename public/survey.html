@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Survey</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">DataFormers</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/surveys.html">Surveys Available</a></li>
+                <li><a href="/responses.html">View Responses</a></li>
+                <li><a href="/about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1 id="surveyTitle"></h1>
+        <p id="surveyDescription"></p>
+        
+        <div class="description">
+            <p>Your responses are valuable to us. Please take a moment to complete this survey. Your feedback helps us improve and make better decisions.</p>
+        </div>
+        
+        <form id="surveyResponseForm">
+            <div id="questionsContainer"></div>
+            <button type="submit">Submit Response</button>
+        </form>
+    </div>
+    <script src="survey.js"></script>
+</body>
+</html> 

@@ -26,20 +26,38 @@ document.addEventListener('DOMContentLoaded', async () => {
         survey.questions.forEach((question, index) => {
             const questionDiv = document.createElement('div');
             questionDiv.className = 'question';
-            questionDiv.innerHTML = `
-                <label>${question.questionText}</label>
-                ${question.questionType === 'text' ? 
-                    `<input type="text" name="q${index}" required>` :
-                    question.options.map((option, optIndex) => `
+            let inputHtml = '';
+            
+            switch(question.questionType) {
+                case 'text':
+                    inputHtml = `<input type="text" name="q${index}" required>`;
+                    break;
+                case 'single':
+                    inputHtml = question.options.map((option, optIndex) => `
                         <div class="option">
-                            <input type="${question.questionType === 'multiple' ? 'checkbox' : 'radio'}" 
+                            <input type="radio" 
                                    name="q${index}" 
                                    value="${option}"
-                                   ${question.questionType === 'multiple' ? '' : 'required'}>
+                                   required>
                             <label>${option}</label>
                         </div>
-                    `).join('')
-                }
+                    `).join('');
+                    break;
+                case 'multiple':
+                    inputHtml = question.options.map((option, optIndex) => `
+                        <div class="option">
+                            <input type="checkbox" 
+                                   name="q${index}" 
+                                   value="${option}">
+                            <label>${option}</label>
+                        </div>
+                    `).join('');
+                    break;
+            }
+            
+            questionDiv.innerHTML = `
+                <label>${question.questionText}</label>
+                ${inputHtml}
             `;
             questionsContainer.appendChild(questionDiv);
         });

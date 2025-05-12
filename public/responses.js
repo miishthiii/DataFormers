@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const surveySelect = document.getElementById('surveySelect');
     const responsesContainer = document.getElementById('responsesContainer');
+    const chartsContainer = document.getElementById('chartsContainer');
     
     // Load all surveys
     try {
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (!surveyId) {
                 responsesContainer.innerHTML = '<p class="no-responses">Select a survey to view responses.</p>';
+                chartsContainer.innerHTML = '';
                 return;
             }
             
@@ -52,8 +54,90 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 if (responses.length === 0) {
                     responsesContainer.innerHTML = '<p class="no-responses">No responses yet for this survey.</p>';
+                    chartsContainer.innerHTML = '<p class="no-charts">No data available for charts.</p>';
                     return;
                 }
+
+                // Clear previous charts
+                chartsContainer.innerHTML = '';
+                
+                // Create charts for each question
+                survey.questions.forEach((question, questionIndex) => {
+                    if (question.questionType === 'text') return; // Skip text questions
+                    
+                    // Count responses for each option
+                    const optionCounts = {};
+                    question.options.forEach(option => {
+                        optionCounts[option] = 0;
+                    });
+                    
+                    responses.forEach(response => {
+                        const questionResponses = response.responses[questionIndex] || [];
+                        questionResponses.forEach(answer => {
+                            if (optionCounts.hasOwnProperty(answer)) {
+                                optionCounts[answer]++;
+                            }
+                        });
+                    });
+
+                    // Create chart wrapper
+                    const chartWrapper = document.createElement('div');
+                    chartWrapper.className = 'chart-wrapper';
+                    
+                    // Create canvas for chart
+                    const canvas = document.createElement('canvas');
+                    chartWrapper.appendChild(canvas);
+                    
+                    // Add chart title
+                    const title = document.createElement('div');
+                    title.className = 'chart-title';
+                    title.textContent = question.questionText;
+                    chartWrapper.insertBefore(title, canvas);
+                    
+                    chartsContainer.appendChild(chartWrapper);
+
+                    // Create pie chart
+                    new Chart(canvas, {
+                        type: 'pie',
+                        data: {
+                            labels: Object.keys(optionCounts),
+                            datasets: [{
+                                data: Object.values(optionCounts),
+                                backgroundColor: [
+                                    '#FF6384',
+                                    '#36A2EB',
+                                    '#FFCE56',
+                                    '#4BC0C0',
+                                    '#9966FF',
+                                    '#FF9F40',
+                                    '#FF6384',
+                                    '#36A2EB',
+                                    '#FFCE56',
+                                    '#4BC0C0'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.raw || 0;
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = Math.round((value / total) * 100);
+                                            return `${label}: ${value} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
                 
                 // Display responses
                 let html = `<h2>Responses for "${survey.title}"</h2>`;
@@ -83,6 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (error) {
                 console.error('Error loading responses:', error);
                 responsesContainer.innerHTML = `<p class="error">Error loading responses: ${error.message}</p>`;
+                chartsContainer.innerHTML = '';
             }
         });
     } catch (error) {

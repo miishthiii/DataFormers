@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey Responses - DataFormers</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .chart-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .chart-title {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .no-charts {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -22,7 +48,7 @@
         <h1>Survey Responses</h1>
         
         <div class="description">
-            <p>View responses for your surveys. Select a survey to see its responses.</p>
+            <p>View responses and analytics for your surveys. Select a survey to see its responses and charts.</p>
         </div>
         
         <div class="survey-selector">
@@ -32,6 +58,10 @@
             </select>
         </div>
         
+        <div id="chartsContainer" class="chart-container">
+            <!-- Charts will be displayed here -->
+        </div>
+
         <div id="responsesContainer" class="responses-container">
             <p class="no-responses">Select a survey to view responses.</p>
         </div>
